@@ -1,0 +1,7 @@
+<resources>
+    <string name="app_name">CountriesApp</string>
+
+    <string name="favorite">favorito</string>
+    <string name="search">search</string>
+    <string name="more">more</string>
+</resources>
