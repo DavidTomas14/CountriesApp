@@ -10,6 +10,7 @@ import android.widget.TextView
 import android.widget.Toast
 import androidx.core.text.bold
 import androidx.core.text.buildSpannedString
+import androidx.lifecycle.ViewModelProvider
 import com.example.countriesapp.GlideApp
 import com.example.countriesapp.R
 import com.example.countriesapp.databinding.ActivityDetailBinding
@@ -22,11 +23,17 @@ class DetailActivity : AppCompatActivity() {
     }
 
     private lateinit var binding: ActivityDetailBinding
+    private lateinit var viewModel: DetailViewModel
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
         binding = ActivityDetailBinding.inflate(layoutInflater)
         setContentView(binding.root)
+
+        viewModel = ViewModelProvider( 
+            this,
+        DetailViewModelFactory(intent.getParcelableExtra(EXTRA_COUNTRY)!!)
+        )[DetailViewModel::class.java]
 
         setSupportActionBar(binding.toolbar)
 
@@ -121,5 +128,9 @@ class DetailActivity : AppCompatActivity() {
             bold { append("Area: ") }
             appendLine(country.area.toString())
         }
+    }
+
+    private fun updateUi(model:DetailViewModel.UiModel) = with(model.country){
+
     }
 }
