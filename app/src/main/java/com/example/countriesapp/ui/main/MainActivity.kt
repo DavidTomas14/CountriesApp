@@ -35,6 +35,15 @@ class MainActivity : AppCompatActivity() {
         binding.recyclerView.adapter = adapter
         viewModel.model.observe(this, Observer(::updateUi))
 
+        viewModel.navigation.observe(this, Observer {event->
+            event.getContentIfNotHandled()?.let{
+                Intent(this, DetailActivity::class.java).run {
+                    putExtra(DetailActivity.EXTRA_COUNTRY, it)
+                    startActivity(this)
+                }
+            }
+        })
+
 
     }
 
@@ -45,10 +54,7 @@ class MainActivity : AppCompatActivity() {
                 adapter.items = model.countries
                 adapter.notifyDataSetChanged()
             }
-            is Navigation -> Intent(this, DetailActivity::class.java).run {
-                putExtra(DetailActivity.EXTRA_COUNTRY, model.country)
-                startActivity(this)
-            }
+
         }
     }
 }
