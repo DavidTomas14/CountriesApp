@@ -5,6 +5,7 @@ import androidx.lifecycle.MutableLiveData
 import androidx.lifecycle.ViewModel
 import com.example.countriesapp.Server.CountriesRepository
 import com.example.countriesapp.model.Database.Country
+import com.example.countriesapp.ui.common.Event
 import com.example.countriesapp.ui.common.Scope
 import kotlinx.coroutines.launch
 
@@ -14,7 +15,6 @@ class MainViewModel(private val countriesRepository: CountriesRepository) : View
     sealed class UiModel{
         object Loading:UiModel()
         class Content(val countries: List<Country>):UiModel()
-        class Navigation(val country: Country):UiModel()
     }
 
     private val _model = MutableLiveData<UiModel>()
@@ -23,6 +23,9 @@ class MainViewModel(private val countriesRepository: CountriesRepository) : View
             if(_model.value == null) refresh()
             return _model
         }
+
+    private val _navigation = MutableLiveData<Event<Country>>()
+    val navigation: LiveData<Event<Country>> = _navigation
 
     init {
         initScope()
@@ -39,7 +42,7 @@ class MainViewModel(private val countriesRepository: CountriesRepository) : View
     }
 
     fun onMovieClicked(country: Country){
-        _model.value = UiModel.Navigation(country)
+        _navigation.value = Event(country)
     }
 
     override fun onCleared() {
