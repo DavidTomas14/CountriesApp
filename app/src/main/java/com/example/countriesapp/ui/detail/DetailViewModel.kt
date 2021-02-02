@@ -16,6 +16,7 @@ class DetailViewModel(private val country: Country) : ViewModel() {
             if (_model.value == null) _model.value = UiModel(country)
             return _model
         }
+
 }
 
 

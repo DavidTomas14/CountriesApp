@@ -10,11 +10,13 @@ import android.widget.TextView
 import android.widget.Toast
 import androidx.core.text.bold
 import androidx.core.text.buildSpannedString
+import androidx.lifecycle.Observer
 import androidx.lifecycle.ViewModelProvider
 import com.example.countriesapp.GlideApp
 import com.example.countriesapp.R
 import com.example.countriesapp.databinding.ActivityDetailBinding
 import com.example.countriesapp.model.Database.Country
+import com.example.countriesapp.ui.main.MainViewModel
 
 class DetailActivity : AppCompatActivity() {
 
@@ -35,58 +37,69 @@ class DetailActivity : AppCompatActivity() {
         DetailViewModelFactory(intent.getParcelableExtra(EXTRA_COUNTRY)!!)
         )[DetailViewModel::class.java]
 
-        setSupportActionBar(binding.toolbar)
+        viewModel.model.observe(this, Observer(::updateUi))
 
-        val country = intent.getParcelableExtra<Country>(EXTRA_COUNTRY)
 
-        if(country != null){
-            title = country.name
-            GlideApp
-                .with(this)
-                .load(country.flagPath)
-                .into(binding.bandera)
+    }
+    private fun updateUi(model: DetailViewModel.UiModel){ with(binding) {
 
-            bindDetailInfo(binding.detailInfo, country)
+        setSupportActionBar(toolbar)
+        toolbar.setNavigationOnClickListener {
+            Toast.makeText(this@DetailActivity, "Navigation", Toast.LENGTH_SHORT).show()
         }
-
-
-        val customView = findViewById<CustomView>(R.id.customView)
-        customView.setView("https://images-na.ssl-images-amazon.com/images/I/616p3JxvgjL._AC_SX425_.jpg",
-                    "Españita")
-
-        binding.textaco.text = "No dejes que nadie te diga que no puedes hacer algo. Ni siquiera yo. ¿Lo entiendes?" +
-                " Si tienes un sueño, tienes que protegerlo. Cuando no pueden hacer algo, a las personas les gusta decirles " +
-                "a los demás que tampoco podrán hacerlo. Si quieres algo, ve y búscalo. Punto.\n" +
-                "Si quieres conquistar corazones y mentes, debes liderar con tu corazón y con tu cabeza. No creo que sea posible" +
-                " tener una personalidad profesional de lunes a viernes y una personalidad real el resto del tiempo. Todo es profesional" +
-                " y todo es personal al mismo tiempo.\n Hay una discordancia entre lo que la ciencia dice y lo que las empresas hacen. Y lo" +
-                " que me preocupa, mientras estamos junto a los escombros del colapso de la economía, es que muchas organizaciones están tomando " +
-                "sus decisiones y estableciendo sus políticas acerca del talento y el personal en función de presunciones obsoletas sin analizar y fundamentadas" +
-                " más en el folclore que en la ciencia."
-
-        binding.toolbar.setNavigationOnClickListener {
-           Toast.makeText(this, "Navigation", Toast.LENGTH_SHORT).show()
-        }
-
-        binding.toolbar.setOnMenuItemClickListener { menuItem ->
+        toolbar.setOnMenuItemClickListener { menuItem ->
             when (menuItem.itemId) {
                 R.id.favorite -> {
-                    Toast.makeText(this, "Favorite", Toast.LENGTH_SHORT).show()
+                    Toast.makeText(this@DetailActivity, "Favorite", Toast.LENGTH_SHORT).show()
                     true
                 }
                 R.id.search -> {
-                    Toast.makeText(this, "Search", Toast.LENGTH_SHORT).show()
+                    Toast.makeText(this@DetailActivity, "Search", Toast.LENGTH_SHORT).show()
                     true
                 }
                 R.id.more -> {
-                    Toast.makeText(this, "More", Toast.LENGTH_SHORT).show()
+                    Toast.makeText(this@DetailActivity, "More", Toast.LENGTH_SHORT).show()
                     true
                 }
                 else -> false
             }
         }
 
-        binding.fab.setOnClickListener{
+
+
+        val customView = findViewById<CustomView>(R.id.customView)
+        customView.setView(
+            "https://images-na.ssl-images-amazon.com/images/I/616p3JxvgjL._AC_SX425_.jpg",
+            "Españita"
+        )
+
+
+
+        textaco.text =
+            "No dejes que nadie te diga que no puedes hacer algo. Ni siquiera yo. ¿Lo entiendes?" +
+                    " Si tienes un sueño, tienes que protegerlo. Cuando no pueden hacer algo, a las personas les gusta decirles " +
+                    "a los demás que tampoco podrán hacerlo. Si quieres algo, ve y búscalo. Punto.\n" +
+                    "Si quieres conquistar corazones y mentes, debes liderar con tu corazón y con tu cabeza. No creo que sea posible" +
+                    " tener una personalidad profesional de lunes a viernes y una personalidad real el resto del tiempo. Todo es profesional" +
+                    " y todo es personal al mismo tiempo.\n Hay una discordancia entre lo que la ciencia dice y lo que las empresas hacen. Y lo" +
+                    " que me preocupa, mientras estamos junto a los escombros del colapso de la economía, es que muchas organizaciones están tomando " +
+                    "sus decisiones y estableciendo sus políticas acerca del talento y el personal en función de presunciones obsoletas sin analizar y fundamentadas" +
+                    " más en el folclore que en la ciencia."
+
+        fab.setOnClickListener {
+
+        }
+    }
+        with(viewModel.model.value?.country){
+            if(this != null){
+                title = this.name
+                GlideApp
+                    .with(this@DetailActivity)
+                    .load(this.flagPath)
+                    .into(binding.bandera)
+
+                bindDetailInfo(binding.detailInfo, this)
+        }
 
         }
     }
@@ -128,9 +141,5 @@ class DetailActivity : AppCompatActivity() {
             bold { append("Area: ") }
             appendLine(country.area.toString())
         }
-    }
-
-    private fun updateUi(model:DetailViewModel.UiModel) = with(model.country){
-
     }
 }
