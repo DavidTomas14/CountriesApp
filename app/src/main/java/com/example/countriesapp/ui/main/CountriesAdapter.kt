@@ -9,6 +9,8 @@ import com.example.countriesapp.GlideApp
 import com.example.countriesapp.model.Database.Country
 import com.example.countriesapp.R
 import com.example.countriesapp.databinding.ViewCountryBinding
+import com.example.countriesapp.ui.common.inflate
+import com.example.countriesapp.ui.common.loadUrl
 
 class CountriesAdapter( var items: List<Country>, val onClick:(Country) -> Unit): RecyclerView.Adapter<CountriesAdapter.ViewHolder>() {
 
@@ -18,19 +20,12 @@ class CountriesAdapter( var items: List<Country>, val onClick:(Country) -> Unit)
         fun bind(country: Country) = with(binding){
             countryName.text = country.name
 
-
-            GlideApp.with(binding.root)
-                .load(country.flagPath)
-                .centerCrop()
-                .override(400, 400)
-                .into(countryFlag)
+            countryFlag.loadUrl(country.flagPath)
         }
     }
 
     override fun onCreateViewHolder(parent: ViewGroup, viewType: Int): ViewHolder {
-        val view = LayoutInflater
-            .from(parent.context)
-            .inflate(R.layout.view_country, parent, false)
+        val view = parent.inflate(R.layout.view_country, false)
         return ViewHolder(view)
     }
 

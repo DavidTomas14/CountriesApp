@@ -11,6 +11,7 @@ import androidx.lifecycle.lifecycleScope
 import com.example.countriesapp.Server.CountriesRepository
 import com.example.countriesapp.databinding.ActivityMainBinding
 import com.example.countriesapp.model.Database.Country
+import com.example.countriesapp.ui.common.startActivity
 import com.example.countriesapp.ui.detail.DetailActivity
 import com.example.countriesapp.ui.main.MainViewModel.UiModel.*
 import kotlinx.coroutines.*
@@ -37,9 +38,8 @@ class MainActivity : AppCompatActivity() {
 
         viewModel.navigation.observe(this, Observer {event->
             event.getContentIfNotHandled()?.let{
-                Intent(this, DetailActivity::class.java).run {
+                startActivity<DetailActivity>{
                     putExtra(DetailActivity.EXTRA_COUNTRY, it)
-                    startActivity(this)
                 }
             }
         })

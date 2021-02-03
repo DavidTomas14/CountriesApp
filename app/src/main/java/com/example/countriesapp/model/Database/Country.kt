@@ -1,7 +1,6 @@
 package com.example.countriesapp.model.Database
 
 import android.os.Parcelable
-import com.example.countriesapp.Server.Language
 import kotlinx.android.parcel.Parcelize
 
 @Parcelize
