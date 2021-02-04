@@ -8,6 +8,7 @@ import android.text.style.ForegroundColorSpan
 import android.view.Menu
 import android.widget.TextView
 import android.widget.Toast
+import androidx.core.content.ContextCompat
 import androidx.core.text.bold
 import androidx.core.text.buildSpannedString
 import androidx.lifecycle.Observer
@@ -18,6 +19,7 @@ import com.example.countriesapp.R
 import com.example.countriesapp.databinding.ActivityDetailBinding
 import com.example.countriesapp.model.databaseRoom.Country
 import com.example.countriesapp.model.server.CountriesRepository
+import com.example.countriesapp.ui.common.loadUrl
 import java.lang.IllegalStateException
 
 
@@ -35,6 +37,8 @@ class DetailActivity : AppCompatActivity() {
         binding = ActivityDetailBinding.inflate(layoutInflater)
         setContentView(binding.root)
 
+        setSupportActionBar(binding.toolbar)
+
         viewModel = ViewModelProvider( 
             this,
         DetailViewModelFactory(
@@ -44,11 +48,28 @@ class DetailActivity : AppCompatActivity() {
 
         viewModel.model.observe(this, Observer(::updateUi))
 
+        binding.fab.setOnClickListener {viewModel.onFavoriteClicked()}
+
 
     }
     private fun updateUi(model: DetailViewModel.UiModel){ with(binding) {
 
-        setSupportActionBar(toolbar)
+
+        val icon = if(model.country.favourite) R.drawable.me_gusta_relleno else R.drawable.me_gusta
+        fab.setImageDrawable(ContextCompat.getDrawable(this@DetailActivity, icon))
+
+        countryDetailInfo.setCountryInfo(model.country)
+
+        with(model.country){
+            if(this != null){
+                binding.bandera.loadUrl(this.flagPath)
+                title = this.name
+            }
+
+
+
+
+
         toolbar.setNavigationOnClickListener {
             Toast.makeText(this@DetailActivity, "Navigation", Toast.LENGTH_SHORT).show()
         }
@@ -70,8 +91,6 @@ class DetailActivity : AppCompatActivity() {
             }
         }
 
-
-
         val customView = findViewById<CustomView>(R.id.customView)
         customView.setView(
             "https://images-na.ssl-images-amazon.com/images/I/616p3JxvgjL._AC_SX425_.jpg",
@@ -91,20 +110,8 @@ class DetailActivity : AppCompatActivity() {
                     "sus decisiones y estableciendo sus políticas acerca del talento y el personal en función de presunciones obsoletas sin analizar y fundamentadas" +
                     " más en el folclore que en la ciencia."
 
-        fab.setOnClickListener {
-
-        }
     }
-        with(model.country){
-            if(this != null){
-                title = this.name
-                GlideApp
-                    .with(this@DetailActivity)
-                    .load(this.flagPath)
-                    .into(binding.bandera)
 
-                bindDetailInfo(binding.detailInfo, this)
-        }
 
         }
     }
@@ -114,37 +121,5 @@ class DetailActivity : AppCompatActivity() {
         return true
     }
 
-    private fun bindDetailInfo(detailInfo: TextView, country: Country) {
-        detailInfo.text = buildSpannedString {
-            bold { append("Name: ") }
-            appendLine(country.name)
 
-            bold{append("Code: ")}
-            appendLine(country.code)
-
-            bold { append("NativeName: ") }
-            appendLine(country.nativeName)
-
-            bold { append("Capital: ") }
-            appendLine(country.capital)
-
-            bold { append("Population: ") }
-            appendLine(country.population.toString())
-
-            bold { append("Language: ") }
-            appendLine(country.language)
-
-            bold { append("Region: ") }
-            appendLine(country.region)
-
-            bold { append("Subregion: ") }
-            appendLine(country.subRegion)
-            setSpan(ForegroundColorSpan(Color.BLUE),
-                33, 39,
-                Spannable.SPAN_EXCLUSIVE_EXCLUSIVE)
-
-            bold { append("Area: ") }
-            appendLine(country.area.toString())
-        }
-    }
 }

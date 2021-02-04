@@ -28,6 +28,14 @@ class DetailViewModel(private val countryId: Int, private val countriesRepositor
         _model.value = UiModel(countriesRepository.findById(countryId))
     }
 
+    fun onFavoriteClicked() = launch {
+        _model.value?.country?.let {
+            val updatedCountry = it.copy(favourite = !it.favourite)
+            _model.value = UiModel(updatedCountry)
+            countriesRepository.update(updatedCountry)
+        }
+    }
+
 }
 
 
