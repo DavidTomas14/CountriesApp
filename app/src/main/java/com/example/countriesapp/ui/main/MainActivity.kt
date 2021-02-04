@@ -37,7 +37,7 @@ class MainActivity : AppCompatActivity() {
         viewModel.navigation.observe(this, Observer {event->
             event.getContentIfNotHandled()?.let{
                 Intent(this, DetailActivity::class.java).run {
-                    putExtra(DetailActivity.EXTRA_COUNTRY, it)
+                    putExtra(DetailActivity.EXTRA_COUNTRY_ID, it.id)
                     startActivity(this)
                 }
             }
@@ -46,7 +46,7 @@ class MainActivity : AppCompatActivity() {
 
     }
 
-    fun updateUi(model:MainViewModel.UiModel) {
+    private fun updateUi(model:MainViewModel.UiModel) {
         binding.progress.visibility = if(model == Loading) View.VISIBLE else View.GONE
         when(model){
             is Content -> {

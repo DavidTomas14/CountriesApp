@@ -12,17 +12,19 @@ import androidx.core.text.bold
 import androidx.core.text.buildSpannedString
 import androidx.lifecycle.Observer
 import androidx.lifecycle.ViewModelProvider
+import com.example.countriesapp.CountryApp
 import com.example.countriesapp.GlideApp
 import com.example.countriesapp.R
 import com.example.countriesapp.databinding.ActivityDetailBinding
 import com.example.countriesapp.model.databaseRoom.Country
+import com.example.countriesapp.model.server.CountriesRepository
 import java.lang.IllegalStateException
 
 
 class DetailActivity : AppCompatActivity() {
 
     companion object{
-        const val EXTRA_COUNTRY = "DetailActivity:pais"
+        const val EXTRA_COUNTRY_ID = "DetailActivity:pais"
     }
 
     private lateinit var binding: ActivityDetailBinding
@@ -35,8 +37,10 @@ class DetailActivity : AppCompatActivity() {
 
         viewModel = ViewModelProvider( 
             this,
-        DetailViewModelFactory(intent.getParcelableExtra(EXTRA_COUNTRY)!!
-        ))[DetailViewModel::class.java]
+        DetailViewModelFactory(
+                intent.getIntExtra(EXTRA_COUNTRY_ID, -1),
+                CountriesRepository(application as CountryApp))
+        )[DetailViewModel::class.java]
 
         viewModel.model.observe(this, Observer(::updateUi))
 
@@ -91,7 +95,7 @@ class DetailActivity : AppCompatActivity() {
 
         }
     }
-        with(viewModel.model.value?.country){
+        with(model.country){
             if(this != null){
                 title = this.name
                 GlideApp

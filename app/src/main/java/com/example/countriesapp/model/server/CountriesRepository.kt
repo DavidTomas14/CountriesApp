@@ -22,6 +22,13 @@ class CountriesRepository(application: CountryApp) {
             getAll()
         }
     }
+    suspend fun findById(id: Int) : Country = withContext(Dispatchers.IO){
+        db.countryDao().findbyId(id)
+    }
+
+    suspend fun update(country: Country) = withContext(Dispatchers.IO){
+        db.countryDao().updateCountry(country)
+    }
 
     }
 private fun CountriesApiResultItem.convertToCountry() = Country(
