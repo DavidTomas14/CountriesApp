@@ -1,4 +1,4 @@
-package com.example.countriesapp.Server
+package com.example.countriesapp.model.server
 
 import okhttp3.OkHttpClient
 import okhttp3.logging.HttpLoggingInterceptor

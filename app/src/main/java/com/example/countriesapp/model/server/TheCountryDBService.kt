@@ -1,6 +1,5 @@
-package com.example.countriesapp.Server
+package com.example.countriesapp.model.server
 
-import retrofit2.http.Query
 import retrofit2.http.GET
 
 interface TheCountryDBService {

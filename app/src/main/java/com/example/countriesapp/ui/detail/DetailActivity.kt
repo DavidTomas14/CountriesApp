@@ -15,8 +15,9 @@ import androidx.lifecycle.ViewModelProvider
 import com.example.countriesapp.GlideApp
 import com.example.countriesapp.R
 import com.example.countriesapp.databinding.ActivityDetailBinding
-import com.example.countriesapp.model.Database.Country
-import com.example.countriesapp.ui.main.MainViewModel
+import com.example.countriesapp.model.databaseRoom.Country
+import java.lang.IllegalStateException
+
 
 class DetailActivity : AppCompatActivity() {
 
@@ -34,8 +35,8 @@ class DetailActivity : AppCompatActivity() {
 
         viewModel = ViewModelProvider( 
             this,
-        DetailViewModelFactory(intent.getParcelableExtra(EXTRA_COUNTRY)!!)
-        )[DetailViewModel::class.java]
+        DetailViewModelFactory(intent.getParcelableExtra(EXTRA_COUNTRY)!!
+        ))[DetailViewModel::class.java]
 
         viewModel.model.observe(this, Observer(::updateUi))
 

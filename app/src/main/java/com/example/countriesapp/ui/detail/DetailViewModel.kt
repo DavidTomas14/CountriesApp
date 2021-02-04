@@ -4,7 +4,7 @@ import androidx.lifecycle.LiveData
 import androidx.lifecycle.MutableLiveData
 import androidx.lifecycle.ViewModel
 import androidx.lifecycle.ViewModelProvider
-import com.example.countriesapp.model.Database.Country
+import com.example.countriesapp.model.databaseRoom.Country
 
 class DetailViewModel(private val country: Country) : ViewModel() {
 

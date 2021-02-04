@@ -3,8 +3,8 @@ package com.example.countriesapp.ui.main
 import androidx.lifecycle.LiveData
 import androidx.lifecycle.MutableLiveData
 import androidx.lifecycle.ViewModel
-import com.example.countriesapp.Server.CountriesRepository
-import com.example.countriesapp.model.Database.Country
+import com.example.countriesapp.model.databaseRoom.Country
+import com.example.countriesapp.model.server.CountriesRepository
 import com.example.countriesapp.ui.common.Event
 import com.example.countriesapp.ui.common.Scope
 import kotlinx.coroutines.launch

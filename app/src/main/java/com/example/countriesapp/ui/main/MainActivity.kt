@@ -7,11 +7,9 @@ import android.view.View
 import androidx.lifecycle.Observer
 import androidx.lifecycle.ViewModel
 import androidx.lifecycle.ViewModelProvider
-import androidx.lifecycle.lifecycleScope
-import com.example.countriesapp.Server.CountriesRepository
+import com.example.countriesapp.CountryApp
 import com.example.countriesapp.databinding.ActivityMainBinding
-import com.example.countriesapp.model.Database.Country
-import com.example.countriesapp.ui.common.startActivity
+import com.example.countriesapp.model.server.CountriesRepository
 import com.example.countriesapp.ui.detail.DetailActivity
 import com.example.countriesapp.ui.main.MainViewModel.UiModel.*
 import kotlinx.coroutines.*
@@ -29,7 +27,7 @@ class MainActivity : AppCompatActivity() {
 
         viewModel = ViewModelProvider(
             this,
-            MainViewModelFactory(CountriesRepository())
+            MainViewModelFactory(CountriesRepository(application as CountryApp))
         )[MainViewModel::class.java]
 
         adapter = CountriesAdapter(emptyList(),viewModel::onMovieClicked)
@@ -38,8 +36,9 @@ class MainActivity : AppCompatActivity() {
 
         viewModel.navigation.observe(this, Observer {event->
             event.getContentIfNotHandled()?.let{
-                startActivity<DetailActivity>{
+                Intent(this, DetailActivity::class.java).run {
                     putExtra(DetailActivity.EXTRA_COUNTRY, it)
+                    startActivity(this)
                 }
             }
         })

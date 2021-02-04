@@ -1,43 +1,43 @@
-package com.example.countriesapp.Server
+package com.example.countriesapp.model.server
 
 import com.google.gson.annotations.SerializedName
 
 class CountriesApiResult : ArrayList<CountriesApiResultItem>()
 
 data class CountriesApiResultItem(
-    @SerializedName("alpha2Code")
+        @SerializedName("alpha2Code")
     val Code: String,
-    val alpha3Code: String,
-    val altSpellings: List<String>,
-    @SerializedName("area")
+        val alpha3Code: String,
+        val altSpellings: List<String>,
+        @SerializedName("area")
     val Area: Int,
-    val borders: List<String>,
-    val callingCodes: List<String>,
-    @SerializedName("capital")
+        val borders: List<String>,
+        val callingCodes: List<String>,
+        @SerializedName("capital")
     val Capital: String,
-    val cioc: String,
-    val currencies: List<Currency>,
-    val demonym: String,
-    @SerializedName("flag")
+        val cioc: String,
+        val currencies: List<Currency>,
+        val demonym: String,
+        @SerializedName("flag")
     val Flag: String,
-    val gini: Float,
-    val languages: List<Language>,
-    val latlng: List<Float>,
-    @SerializedName("name")
+        val gini: Float,
+        val languages: List<Language>,
+        val latlng: List<Float>,
+        @SerializedName("name")
     val Name: String,
-    @SerializedName("nativeName")
+        @SerializedName("nativeName")
     val NativeName: String,
-    val numericCode: String,
-    @SerializedName("population")
+        val numericCode: String,
+        @SerializedName("population")
     val Population: Int,
-    @SerializedName("region")
+        @SerializedName("region")
     val Region: String,
-    val regionalBlocs: List<RegionalBloc>,
-    @SerializedName("subregion")
+        val regionalBlocs: List<RegionalBloc>,
+        @SerializedName("subregion")
     val Subregion: String,
-    val timezones: List<String>,
-    val topLevelDomain: List<String>,
-    val translations: Translations
+        val timezones: List<String>,
+        val topLevelDomain: List<String>,
+        val translations: Translations
 )
 
 data class Currency(
