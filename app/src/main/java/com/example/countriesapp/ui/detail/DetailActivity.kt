@@ -37,7 +37,6 @@ class DetailActivity : AppCompatActivity() {
         binding = ActivityDetailBinding.inflate(layoutInflater)
         setContentView(binding.root)
 
-        setSupportActionBar(binding.toolbar)
 
         viewModel = ViewModelProvider( 
             this,
@@ -53,8 +52,6 @@ class DetailActivity : AppCompatActivity() {
 
     }
     private fun updateUi(model: DetailViewModel.UiModel){ with(binding) {
-
-
         val icon = if(model.country.favourite) R.drawable.me_gusta_relleno else R.drawable.me_gusta
         fab.setImageDrawable(ContextCompat.getDrawable(this@DetailActivity, icon))
 
@@ -63,7 +60,7 @@ class DetailActivity : AppCompatActivity() {
         with(model.country){
             if(this != null){
                 binding.bandera.loadUrl(this.flagPath)
-                title = this.name
+                binding.toolbar.title = this.name
             }
 
 

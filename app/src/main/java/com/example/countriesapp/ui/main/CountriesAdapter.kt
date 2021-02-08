@@ -6,10 +6,16 @@ import androidx.recyclerview.widget.RecyclerView
 import com.example.countriesapp.R
 import com.example.countriesapp.databinding.ViewCountryBinding
 import com.example.countriesapp.model.databaseRoom.Country
+import com.example.countriesapp.ui.common.basicDiffUtil
 import com.example.countriesapp.ui.common.inflate
 import com.example.countriesapp.ui.common.loadUrl
 
-class CountriesAdapter(var items: List<Country>, val onClick:(Country) -> Unit): RecyclerView.Adapter<CountriesAdapter.ViewHolder>() {
+class CountriesAdapter(val onClick:(Country) -> Unit): RecyclerView.Adapter<CountriesAdapter.ViewHolder>() {
+
+    var items: List<Country> by basicDiffUtil(
+            emptyList(),
+            areItemsTheSame = {old, new -> old.id == new.id}
+    )
 
     inner class ViewHolder(view: View) : RecyclerView.ViewHolder(view) {
         private val binding = ViewCountryBinding.bind(view)

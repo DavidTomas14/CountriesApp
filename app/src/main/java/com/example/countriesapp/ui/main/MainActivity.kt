@@ -30,7 +30,7 @@ class MainActivity : AppCompatActivity() {
             MainViewModelFactory(CountriesRepository(application as CountryApp))
         )[MainViewModel::class.java]
 
-        adapter = CountriesAdapter(emptyList(),viewModel::onMovieClicked)
+        adapter = CountriesAdapter(viewModel::onMovieClicked)
         binding.recyclerView.adapter = adapter
         viewModel.model.observe(this, Observer(::updateUi))
 
