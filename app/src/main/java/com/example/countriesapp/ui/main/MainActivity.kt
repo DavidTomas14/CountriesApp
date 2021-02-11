@@ -7,12 +7,14 @@ import android.view.View
 import androidx.lifecycle.Observer
 import androidx.lifecycle.ViewModel
 import androidx.lifecycle.ViewModelProvider
-import com.example.countriesapp.CountryApp
-import com.example.countriesapp.databinding.ActivityMainBinding
-import com.example.countriesapp.model.server.CountriesRepository
 import com.example.countriesapp.ui.detail.DetailActivity
 import com.example.countriesapp.ui.main.MainViewModel.UiModel.*
-import kotlinx.coroutines.*
+import com.example.countriesapp.databinding.ActivityMainBinding
+import com.example.countriesapp.data.databaseRoom.RoomDataSource
+import com.example.countriesapp.data.server.TheCountryServerDataSource
+import com.example.countriesapp.ui.common.app
+import com.example.data1.CountriesRepository
+import com.example.usecases1.GetCountries
 
 class MainActivity : AppCompatActivity() {
 
@@ -25,9 +27,15 @@ class MainActivity : AppCompatActivity() {
         binding = ActivityMainBinding.inflate(layoutInflater)
         setContentView(binding.root)
 
+        val countriesRepository = CountriesRepository(
+                RoomDataSource(app.db),
+                TheCountryServerDataSource())
+
         viewModel = ViewModelProvider(
             this,
-            MainViewModelFactory(CountriesRepository(application as CountryApp))
+            MainViewModelFactory(
+                    GetCountries(countriesRepository)
+            )
         )[MainViewModel::class.java]
 
         adapter = CountriesAdapter(viewModel::onMovieClicked)
@@ -51,7 +59,6 @@ class MainActivity : AppCompatActivity() {
         when(model){
             is Content -> {
                 adapter.items = model.countries
-                adapter.notifyDataSetChanged()
             }
 
         }
@@ -59,7 +66,8 @@ class MainActivity : AppCompatActivity() {
 }
 
 @Suppress("UNCHECKED_CAST")
-class MainViewModelFactory(private val countriesRepository: CountriesRepository): ViewModelProvider.Factory{
+class MainViewModelFactory(
+        private val getCountries: GetCountries): ViewModelProvider.Factory{
     override fun <T : ViewModel?> create(modelClass: Class<T>): T =
-        MainViewModel(countriesRepository) as T
+        MainViewModel(getCountries) as T
 }

@@ -7,8 +7,8 @@ import android.widget.Button
 import android.widget.ImageView
 import android.widget.LinearLayout
 import android.widget.TextView
-import com.example.countriesapp.GlideApp
 import com.example.countriesapp.R
+import com.example.countriesapp.ui.common.GlideApp
 
 class CustomView @JvmOverloads constructor(
     context: Context, attrs: AttributeSet? = null, defStyleAttr: Int = 0

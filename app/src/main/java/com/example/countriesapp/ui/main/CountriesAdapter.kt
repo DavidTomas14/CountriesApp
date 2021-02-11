@@ -5,12 +5,14 @@ import android.view.ViewGroup
 import androidx.recyclerview.widget.RecyclerView
 import com.example.countriesapp.R
 import com.example.countriesapp.databinding.ViewCountryBinding
-import com.example.countriesapp.model.databaseRoom.Country
 import com.example.countriesapp.ui.common.basicDiffUtil
 import com.example.countriesapp.ui.common.inflate
 import com.example.countriesapp.ui.common.loadUrl
+import com.example.domain.Country
 
 class CountriesAdapter(val onClick:(Country) -> Unit): RecyclerView.Adapter<CountriesAdapter.ViewHolder>() {
+
+    private lateinit var binding: ViewCountryBinding
 
     var items: List<Country> by basicDiffUtil(
             emptyList(),

@@ -5,13 +5,10 @@ import android.graphics.Color
 import android.text.Spannable
 import android.text.style.ForegroundColorSpan
 import android.util.AttributeSet
-import android.view.LayoutInflater
-import android.widget.TextView
 import androidx.appcompat.widget.AppCompatTextView
 import androidx.core.text.bold
 import androidx.core.text.buildSpannedString
-import com.example.countriesapp.R
-import com.example.countriesapp.model.databaseRoom.Country
+import com.example.domain.Country
 
 class CountryDetailInfo @JvmOverloads constructor(
         context: Context,

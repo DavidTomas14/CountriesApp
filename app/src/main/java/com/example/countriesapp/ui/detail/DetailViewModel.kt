@@ -4,12 +4,16 @@ import androidx.lifecycle.LiveData
 import androidx.lifecycle.MutableLiveData
 import androidx.lifecycle.ViewModel
 import androidx.lifecycle.ViewModelProvider
-import com.example.countriesapp.model.databaseRoom.Country
-import com.example.countriesapp.model.server.CountriesRepository
+import com.example.domain.Country
 import com.example.countriesapp.ui.common.Scope
+import com.example.usecases1.FindCountryById
+import com.example.usecases1.ToggleMovieFavorite
 import kotlinx.coroutines.launch
 
-class DetailViewModel(private val countryId: Int, private val countriesRepository: CountriesRepository)
+class DetailViewModel(
+        private val countryId: Int,
+        private val findCountryById: FindCountryById,
+        private val toggleMovieFavorite: ToggleMovieFavorite)
     : ViewModel(),  Scope by Scope.Impl() {
 
     class UiModel(val country: Country)
@@ -25,14 +29,12 @@ class DetailViewModel(private val countryId: Int, private val countriesRepositor
     }
 
     private fun findCountry() = launch {
-        _model.value = UiModel(countriesRepository.findById(countryId))
+        _model.value = UiModel(findCountryById.invoke(countryId))
     }
 
     fun onFavoriteClicked() = launch {
         _model.value?.country?.let {
-            val updatedCountry = it.copy(favourite = !it.favourite)
-            _model.value = UiModel(updatedCountry)
-            countriesRepository.update(updatedCountry)
+            _model.value  = UiModel(toggleMovieFavorite.invoke(it))
         }
     }
 
@@ -40,9 +42,11 @@ class DetailViewModel(private val countryId: Int, private val countriesRepositor
 
 
 @Suppress("UNCHECKED_CAST")
-class DetailViewModelFactory(private val countryId: Int,
-                             private val countriesRepository: CountriesRepository) :
+class DetailViewModelFactory(
+        private val countryId: Int,
+        private val findCountryById: FindCountryById,
+        private val toggleMovieFavorite: ToggleMovieFavorite) :
         ViewModelProvider.Factory {
     override fun <T : ViewModel?> create(modelClass: Class<T>): T =
-        DetailViewModel(countryId, countriesRepository) as T
+        DetailViewModel(countryId, findCountryById, toggleMovieFavorite) as T
 }

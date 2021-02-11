@@ -1,26 +1,19 @@
 package com.example.countriesapp.ui.detail
 
-import android.graphics.Color
 import androidx.appcompat.app.AppCompatActivity
 import android.os.Bundle
-import android.text.Spannable
-import android.text.style.ForegroundColorSpan
-import android.view.Menu
-import android.widget.TextView
-import android.widget.Toast
 import androidx.core.content.ContextCompat
-import androidx.core.text.bold
-import androidx.core.text.buildSpannedString
 import androidx.lifecycle.Observer
 import androidx.lifecycle.ViewModelProvider
-import com.example.countriesapp.CountryApp
-import com.example.countriesapp.GlideApp
 import com.example.countriesapp.R
+import com.example.countriesapp.data.databaseRoom.RoomDataSource
+import com.example.countriesapp.data.server.TheCountryServerDataSource
 import com.example.countriesapp.databinding.ActivityDetailBinding
-import com.example.countriesapp.model.databaseRoom.Country
-import com.example.countriesapp.model.server.CountriesRepository
+import com.example.countriesapp.ui.common.app
 import com.example.countriesapp.ui.common.loadUrl
-import java.lang.IllegalStateException
+import com.example.data1.CountriesRepository
+import com.example.usecases1.FindCountryById
+import com.example.usecases1.ToggleMovieFavorite
 
 
 class DetailActivity : AppCompatActivity() {
@@ -38,11 +31,17 @@ class DetailActivity : AppCompatActivity() {
         setContentView(binding.root)
 
 
+        val countriesRepository = CountriesRepository(
+                RoomDataSource(app.db),
+                TheCountryServerDataSource()
+        )
+
         viewModel = ViewModelProvider( 
             this,
         DetailViewModelFactory(
                 intent.getIntExtra(EXTRA_COUNTRY_ID, -1),
-                CountriesRepository(application as CountryApp))
+                FindCountryById(countriesRepository),
+                ToggleMovieFavorite(countriesRepository))
         )[DetailViewModel::class.java]
 
         viewModel.model.observe(this, Observer(::updateUi))

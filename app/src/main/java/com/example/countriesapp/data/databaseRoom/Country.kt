@@ -1,4 +1,4 @@
-package com.example.countriesapp.model.databaseRoom
+package com.example.countriesapp.data.databaseRoom
 
 import android.os.Parcelable
 import androidx.room.Entity
@@ -19,5 +19,5 @@ data class Country(
         val subRegion: String,
         val area:Int,
         val flagPath: String,
-        val favourite: Boolean = false
+        val favourite: Boolean
 ): Parcelable

@@ -10,7 +10,7 @@ import android.widget.ImageView
 import androidx.annotation.LayoutRes
 import androidx.recyclerview.widget.DiffUtil
 import androidx.recyclerview.widget.RecyclerView
-import com.example.countriesapp.GlideApp
+import com.example.countriesapp.CountryApp
 import kotlin.properties.Delegates
 
 
@@ -43,3 +43,6 @@ inline fun <VH : RecyclerView.ViewHolder, T> RecyclerView.Adapter<VH>.basicDiffU
                 override fun getNewListSize(): Int = new.size
             }).dispatchUpdatesTo(this@basicDiffUtil)
         }
+
+val Context.app: CountryApp
+    get() = applicationContext as CountryApp

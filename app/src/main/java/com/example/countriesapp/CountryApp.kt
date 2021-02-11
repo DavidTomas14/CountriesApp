@@ -2,7 +2,7 @@ package com.example.countriesapp
 
 import android.app.Application
 import androidx.room.Room
-import com.example.countriesapp.model.databaseRoom.CountriesDatabase
+import com.example.countriesapp.data.databaseRoom.CountriesDatabase
 
 class CountryApp : Application() {
 

@@ -3,13 +3,13 @@ package com.example.countriesapp.ui.main
 import androidx.lifecycle.LiveData
 import androidx.lifecycle.MutableLiveData
 import androidx.lifecycle.ViewModel
-import com.example.countriesapp.model.databaseRoom.Country
-import com.example.countriesapp.model.server.CountriesRepository
 import com.example.countriesapp.ui.common.Event
 import com.example.countriesapp.ui.common.Scope
+import com.example.domain.Country
+import com.example.usecases1.GetCountries
 import kotlinx.coroutines.launch
 
-class MainViewModel(private val countriesRepository: CountriesRepository) : ViewModel(),
+class MainViewModel(private val getCountries: GetCountries) : ViewModel(),
         Scope by Scope.Impl(){
 
     sealed class UiModel{
@@ -36,7 +36,7 @@ class MainViewModel(private val countriesRepository: CountriesRepository) : View
     private fun refresh(){
         launch {
             _model.value = UiModel.Loading
-            _model.value = UiModel.Content(countriesRepository.findCountries())
+            _model.value = UiModel.Content(getCountries.invoke())
         }
 
     }

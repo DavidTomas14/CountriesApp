@@ -1,2 +1,6 @@
+include ':usecases1'
+include ':domain'
+include ':usecases'
+include ':data1'
 include ':app'
 rootProject.name = "CountriesApp"

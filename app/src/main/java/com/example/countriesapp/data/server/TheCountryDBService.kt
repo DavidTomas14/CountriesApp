@@ -1,4 +1,4 @@
-package com.example.countriesapp.model.server
+package com.example.countriesapp.data.server
 
 import retrofit2.http.GET
 
