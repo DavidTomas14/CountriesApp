@@ -7,13 +7,13 @@ import androidx.lifecycle.ViewModelProvider
 import com.example.domain.Country
 import com.example.countriesapp.ui.common.Scope
 import com.example.usecases1.FindCountryById
-import com.example.usecases1.ToggleMovieFavorite
+import com.example.usecases1.ToggleCountryFavorite
 import kotlinx.coroutines.launch
 
 class DetailViewModel(
         private val countryId: Int,
         private val findCountryById: FindCountryById,
-        private val toggleMovieFavorite: ToggleMovieFavorite)
+        private val toggleCountryFavorite: ToggleCountryFavorite)
     : ViewModel(),  Scope by Scope.Impl() {
 
     class UiModel(val country: Country)
@@ -34,7 +34,7 @@ class DetailViewModel(
 
     fun onFavoriteClicked() = launch {
         _model.value?.country?.let {
-            _model.value  = UiModel(toggleMovieFavorite.invoke(it))
+            _model.value  = UiModel(toggleCountryFavorite.invoke(it))
         }
     }
 
@@ -45,8 +45,8 @@ class DetailViewModel(
 class DetailViewModelFactory(
         private val countryId: Int,
         private val findCountryById: FindCountryById,
-        private val toggleMovieFavorite: ToggleMovieFavorite) :
+        private val toggleCountryFavorite: ToggleCountryFavorite) :
         ViewModelProvider.Factory {
     override fun <T : ViewModel?> create(modelClass: Class<T>): T =
-        DetailViewModel(countryId, findCountryById, toggleMovieFavorite) as T
+        DetailViewModel(countryId, findCountryById, toggleCountryFavorite) as T
 }

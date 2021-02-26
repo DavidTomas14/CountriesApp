@@ -13,30 +13,24 @@ import com.example.countriesapp.databinding.ActivityMainBinding
 import com.example.countriesapp.data.databaseRoom.RoomDataSource
 import com.example.countriesapp.data.server.TheCountryServerDataSource
 import com.example.countriesapp.ui.common.app
+import com.example.countriesapp.ui.common.getViewModel
+import com.example.countriesapp.ui.common.startActivity
 import com.example.data1.CountriesRepository
 import com.example.usecases1.GetCountries
 
 class MainActivity : AppCompatActivity() {
 
     private lateinit var binding: ActivityMainBinding
-    private lateinit var viewModel: MainViewModel
+    private val viewModel: MainViewModel by lazy { getViewModel { component.mainViewModel } }
     private lateinit var adapter: CountriesAdapter
+    private lateinit var component : MainActivityComponent
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
         binding = ActivityMainBinding.inflate(layoutInflater)
         setContentView(binding.root)
 
-        val countriesRepository = CountriesRepository(
-                RoomDataSource(app.db),
-                TheCountryServerDataSource())
-
-        viewModel = ViewModelProvider(
-            this,
-            MainViewModelFactory(
-                    GetCountries(countriesRepository)
-            )
-        )[MainViewModel::class.java]
+        component = app.component.plus(MainActivityModule())
 
         adapter = CountriesAdapter(viewModel::onMovieClicked)
         binding.recyclerView.adapter = adapter
@@ -44,9 +38,8 @@ class MainActivity : AppCompatActivity() {
 
         viewModel.navigation.observe(this, Observer {event->
             event.getContentIfNotHandled()?.let{
-                Intent(this, DetailActivity::class.java).run {
+               startActivity<DetailActivity>{
                     putExtra(DetailActivity.EXTRA_COUNTRY_ID, it.id)
-                    startActivity(this)
                 }
             }
         })

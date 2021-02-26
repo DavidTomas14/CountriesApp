@@ -12,8 +12,6 @@ import com.example.domain.Country
 
 class CountriesAdapter(val onClick:(Country) -> Unit): RecyclerView.Adapter<CountriesAdapter.ViewHolder>() {
 
-    private lateinit var binding: ViewCountryBinding
-
     var items: List<Country> by basicDiffUtil(
             emptyList(),
             areItemsTheSame = {old, new -> old.id == new.id}

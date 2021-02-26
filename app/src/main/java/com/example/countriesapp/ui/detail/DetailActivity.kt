@@ -10,10 +10,12 @@ import com.example.countriesapp.data.databaseRoom.RoomDataSource
 import com.example.countriesapp.data.server.TheCountryServerDataSource
 import com.example.countriesapp.databinding.ActivityDetailBinding
 import com.example.countriesapp.ui.common.app
+import com.example.countriesapp.ui.common.getViewModel
 import com.example.countriesapp.ui.common.loadUrl
+import com.example.countriesapp.ui.main.MainActivityComponent
 import com.example.data1.CountriesRepository
 import com.example.usecases1.FindCountryById
-import com.example.usecases1.ToggleMovieFavorite
+import com.example.usecases1.ToggleCountryFavorite
 
 
 class DetailActivity : AppCompatActivity() {
@@ -23,26 +25,15 @@ class DetailActivity : AppCompatActivity() {
     }
 
     private lateinit var binding: ActivityDetailBinding
-    private lateinit var viewModel: DetailViewModel
+    private val viewModel: DetailViewModel by lazy { getViewModel { component.detailViewModel } }
+    private lateinit var component : DetailActivityComponent
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
         binding = ActivityDetailBinding.inflate(layoutInflater)
         setContentView(binding.root)
 
-
-        val countriesRepository = CountriesRepository(
-                RoomDataSource(app.db),
-                TheCountryServerDataSource()
-        )
-
-        viewModel = ViewModelProvider( 
-            this,
-        DetailViewModelFactory(
-                intent.getIntExtra(EXTRA_COUNTRY_ID, -1),
-                FindCountryById(countriesRepository),
-                ToggleMovieFavorite(countriesRepository))
-        )[DetailViewModel::class.java]
+        component = app.component.plus(DetailActivityModule(intent.getIntExtra(EXTRA_COUNTRY_ID, -1)))
 
         viewModel.model.observe(this, Observer(::updateUi))
 
