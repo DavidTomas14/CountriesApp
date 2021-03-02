@@ -2,22 +2,16 @@ package com.example.countriesapp.ui.detail
 
 import androidx.appcompat.app.AppCompatActivity
 import android.os.Bundle
+import androidx.activity.viewModels
 import androidx.core.content.ContextCompat
 import androidx.lifecycle.Observer
-import androidx.lifecycle.ViewModelProvider
 import com.example.countriesapp.R
-import com.example.countriesapp.data.databaseRoom.RoomDataSource
-import com.example.countriesapp.data.server.TheCountryServerDataSource
 import com.example.countriesapp.databinding.ActivityDetailBinding
-import com.example.countriesapp.ui.common.app
-import com.example.countriesapp.ui.common.getViewModel
 import com.example.countriesapp.ui.common.loadUrl
-import com.example.countriesapp.ui.main.MainActivityComponent
-import com.example.data1.CountriesRepository
-import com.example.usecases1.FindCountryById
-import com.example.usecases1.ToggleCountryFavorite
+import dagger.hilt.android.AndroidEntryPoint
 
 
+@AndroidEntryPoint
 class DetailActivity : AppCompatActivity() {
 
     companion object{
@@ -25,15 +19,12 @@ class DetailActivity : AppCompatActivity() {
     }
 
     private lateinit var binding: ActivityDetailBinding
-    private val viewModel: DetailViewModel by lazy { getViewModel { component.detailViewModel } }
-    private lateinit var component : DetailActivityComponent
+    private val viewModel: DetailViewModel by viewModels()
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
         binding = ActivityDetailBinding.inflate(layoutInflater)
         setContentView(binding.root)
-
-        component = app.component.plus(DetailActivityModule(intent.getIntExtra(EXTRA_COUNTRY_ID, -1)))
 
         viewModel.model.observe(this, Observer(::updateUi))
 

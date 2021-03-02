@@ -1,5 +1,6 @@
 package com.example.countriesapp.ui.detail
 
+import androidx.hilt.lifecycle.ViewModelInject
 import androidx.lifecycle.LiveData
 import androidx.lifecycle.MutableLiveData
 import androidx.lifecycle.ViewModel
@@ -9,11 +10,12 @@ import com.example.countriesapp.ui.common.Scope
 import com.example.usecases1.FindCountryById
 import com.example.usecases1.ToggleCountryFavorite
 import kotlinx.coroutines.launch
+import javax.inject.Named
 
-class DetailViewModel(
-        private val countryId: Int,
-        private val findCountryById: FindCountryById,
-        private val toggleCountryFavorite: ToggleCountryFavorite)
+class DetailViewModel @ViewModelInject constructor(
+    @Named("countryId") private val countryId: Int,
+    private val findCountryById: FindCountryById,
+    private val toggleCountryFavorite: ToggleCountryFavorite)
     : ViewModel(),  Scope by Scope.Impl() {
 
     class UiModel(val country: Country)

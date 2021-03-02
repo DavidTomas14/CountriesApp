@@ -9,14 +9,17 @@ import com.example.data1.LocalDataSource
 import com.example.data1.RemoteDataSource
 import dagger.Module
 import dagger.Provides
+import dagger.hilt.InstallIn
+import dagger.hilt.android.components.ApplicationComponent
 import javax.inject.Singleton
 
 @Module
+@InstallIn(ApplicationComponent::class)
 class AppModule {
 
     @Singleton
     @Provides
-    fun databaseProvider(app: Application) = Room.databaseBuilder(
+    fun databaseProvider(app: Application) : CountriesDatabase = Room.databaseBuilder(
         app,
         CountriesDatabase::class.java,
         "countries-db"

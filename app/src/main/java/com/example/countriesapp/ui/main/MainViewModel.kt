@@ -1,5 +1,6 @@
 package com.example.countriesapp.ui.main
 
+import androidx.hilt.lifecycle.ViewModelInject
 import androidx.lifecycle.LiveData
 import androidx.lifecycle.MutableLiveData
 import androidx.lifecycle.ViewModel
@@ -9,7 +10,7 @@ import com.example.domain.Country
 import com.example.usecases1.GetCountries
 import kotlinx.coroutines.launch
 
-class MainViewModel(private val getCountries: GetCountries) : ViewModel(),
+class MainViewModel @ViewModelInject constructor(private val getCountries: GetCountries) : ViewModel(),
         Scope by Scope.Impl(){
 
     sealed class UiModel{

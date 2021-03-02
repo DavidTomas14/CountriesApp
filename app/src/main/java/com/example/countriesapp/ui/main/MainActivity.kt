@@ -4,6 +4,7 @@ import android.content.Intent
 import androidx.appcompat.app.AppCompatActivity
 import android.os.Bundle
 import android.view.View
+import androidx.activity.viewModels
 import androidx.lifecycle.Observer
 import androidx.lifecycle.ViewModel
 import androidx.lifecycle.ViewModelProvider
@@ -17,20 +18,20 @@ import com.example.countriesapp.ui.common.getViewModel
 import com.example.countriesapp.ui.common.startActivity
 import com.example.data1.CountriesRepository
 import com.example.usecases1.GetCountries
+import dagger.hilt.android.AndroidEntryPoint
+import javax.inject.Inject
 
+@AndroidEntryPoint
 class MainActivity : AppCompatActivity() {
 
+    private val viewModel : MainViewModel by viewModels()
     private lateinit var binding: ActivityMainBinding
-    private val viewModel: MainViewModel by lazy { getViewModel { component.mainViewModel } }
     private lateinit var adapter: CountriesAdapter
-    private lateinit var component : MainActivityComponent
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
         binding = ActivityMainBinding.inflate(layoutInflater)
         setContentView(binding.root)
-
-        component = app.component.plus(MainActivityModule())
 
         adapter = CountriesAdapter(viewModel::onMovieClicked)
         binding.recyclerView.adapter = adapter
