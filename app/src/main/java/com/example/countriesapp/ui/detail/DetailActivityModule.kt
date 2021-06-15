@@ -9,6 +9,8 @@ import dagger.Provides
 import dagger.hilt.InstallIn
 import dagger.hilt.android.components.ActivityComponent
 import dagger.hilt.android.components.ActivityRetainedComponent
+import kotlinx.coroutines.CoroutineDispatcher
+import kotlinx.coroutines.Dispatchers
 import javax.inject.Named
 
 @Module
@@ -18,6 +20,10 @@ class DetailActivityModule {
     @Provides
     @Named("countryId")
     fun getCountryId(activity: Activity)= activity.intent.getIntExtra(DetailActivity.EXTRA_COUNTRY_ID, -1)
+
+    @Provides
+    fun uiDispatherProvider() : CoroutineDispatcher = Dispatchers.Main
+
 }
 
 @Module

@@ -7,16 +7,19 @@ import androidx.lifecycle.ViewModel
 import androidx.lifecycle.ViewModelProvider
 import com.example.domain.Country
 import com.example.countriesapp.ui.common.Scope
+import com.example.countriesapp.ui.common.ScopedViewModel
 import com.example.usecases1.FindCountryById
 import com.example.usecases1.ToggleCountryFavorite
+import kotlinx.coroutines.CoroutineDispatcher
 import kotlinx.coroutines.launch
 import javax.inject.Named
 
 class DetailViewModel @ViewModelInject constructor(
     @Named("countryId") private val countryId: Int,
     private val findCountryById: FindCountryById,
-    private val toggleCountryFavorite: ToggleCountryFavorite)
-    : ViewModel(),  Scope by Scope.Impl() {
+    private val toggleCountryFavorite: ToggleCountryFavorite,
+    override val uiDispatcher: CoroutineDispatcher)
+    : ScopedViewModel(uiDispatcher){
 
     class UiModel(val country: Country)
 
@@ -40,15 +43,4 @@ class DetailViewModel @ViewModelInject constructor(
         }
     }
 
-}
-
-
-@Suppress("UNCHECKED_CAST")
-class DetailViewModelFactory(
-        private val countryId: Int,
-        private val findCountryById: FindCountryById,
-        private val toggleCountryFavorite: ToggleCountryFavorite) :
-        ViewModelProvider.Factory {
-    override fun <T : ViewModel?> create(modelClass: Class<T>): T =
-        DetailViewModel(countryId, findCountryById, toggleCountryFavorite) as T
 }

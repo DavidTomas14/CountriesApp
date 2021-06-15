@@ -14,6 +14,7 @@
             <option value="$PROJECT_DIR$/app" />
             <option value="$PROJECT_DIR$/data1" />
             <option value="$PROJECT_DIR$/domain" />
+            <option value="$PROJECT_DIR$/testShare" />
             <option value="$PROJECT_DIR$/usecases" />
             <option value="$PROJECT_DIR$/usecases1" />
           </set>

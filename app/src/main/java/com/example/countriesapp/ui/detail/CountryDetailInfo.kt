@@ -42,7 +42,7 @@ class CountryDetailInfo @JvmOverloads constructor(
             bold { append("Subregion: ") }
             appendLine(country.subRegion)
             setSpan(ForegroundColorSpan(Color.BLUE),
-                    33, 39,
+                    40, 46,
                     Spannable.SPAN_EXCLUSIVE_EXCLUSIVE)
 
             bold { append("Area: ") }

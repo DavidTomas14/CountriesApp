@@ -4,9 +4,10 @@ import com.example.domain.Country
 
 class CountriesRepository(
     private val localDataSource: LocalDataSource,
-    private val remoteDataSource:RemoteDataSource) {
+    private val remoteDataSource:RemoteDataSource
+    ): RepositoryInterface {
 
-    suspend fun getCountries(): List<Country>{
+    override suspend fun getCountries(): List<Country>{
         if(localDataSource.isEmpty()){
 
             val countries = remoteDataSource.getCountries()
@@ -16,9 +17,9 @@ class CountriesRepository(
         return localDataSource.getCountries()
     }
 
-    suspend fun findById(id:Int): Country = localDataSource.findById(id)
+    override suspend fun findById(id:Int): Country = localDataSource.findById(id)
 
-    suspend fun update(country: Country) = localDataSource.update(country)
+    override suspend fun update(country: Country) = localDataSource.update(country)
 }
 
 

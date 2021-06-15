@@ -6,20 +6,12 @@ import android.os.Bundle
 import android.view.View
 import androidx.activity.viewModels
 import androidx.lifecycle.Observer
-import androidx.lifecycle.ViewModel
-import androidx.lifecycle.ViewModelProvider
 import com.example.countriesapp.ui.detail.DetailActivity
 import com.example.countriesapp.ui.main.MainViewModel.UiModel.*
 import com.example.countriesapp.databinding.ActivityMainBinding
-import com.example.countriesapp.data.databaseRoom.RoomDataSource
-import com.example.countriesapp.data.server.TheCountryServerDataSource
-import com.example.countriesapp.ui.common.app
-import com.example.countriesapp.ui.common.getViewModel
 import com.example.countriesapp.ui.common.startActivity
-import com.example.data1.CountriesRepository
-import com.example.usecases1.GetCountries
 import dagger.hilt.android.AndroidEntryPoint
-import javax.inject.Inject
+
 
 @AndroidEntryPoint
 class MainActivity : AppCompatActivity() {
@@ -59,9 +51,3 @@ class MainActivity : AppCompatActivity() {
     }
 }
 
-@Suppress("UNCHECKED_CAST")
-class MainViewModelFactory(
-        private val getCountries: GetCountries): ViewModelProvider.Factory{
-    override fun <T : ViewModel?> create(modelClass: Class<T>): T =
-        MainViewModel(getCountries) as T
-}

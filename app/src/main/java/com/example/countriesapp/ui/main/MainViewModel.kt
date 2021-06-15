@@ -6,12 +6,16 @@ import androidx.lifecycle.MutableLiveData
 import androidx.lifecycle.ViewModel
 import com.example.countriesapp.ui.common.Event
 import com.example.countriesapp.ui.common.Scope
+import com.example.countriesapp.ui.common.ScopedViewModel
 import com.example.domain.Country
 import com.example.usecases1.GetCountries
+import kotlinx.coroutines.CoroutineDispatcher
 import kotlinx.coroutines.launch
 
-class MainViewModel @ViewModelInject constructor(private val getCountries: GetCountries) : ViewModel(),
-        Scope by Scope.Impl(){
+class MainViewModel @ViewModelInject constructor(
+    val getCountries: GetCountries,
+    override val uiDispatcher: CoroutineDispatcher)
+    :ScopedViewModel(uiDispatcher){
 
     sealed class UiModel{
         object Loading:UiModel()
@@ -34,7 +38,7 @@ class MainViewModel @ViewModelInject constructor(private val getCountries: GetCo
 
 
 
-    private fun refresh(){
+    fun refresh(){
         launch {
             _model.value = UiModel.Loading
             _model.value = UiModel.Content(getCountries.invoke())

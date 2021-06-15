@@ -1,3 +1,4 @@
+include ':testShare'
 include ':usecases1'
 include ':domain'
 include ':usecases'

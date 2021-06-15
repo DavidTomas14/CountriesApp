@@ -1,6 +1,6 @@
 import com.example.domain.Country
 
-internal val mockedCountry = Country(
+val mockedCountry = Country(
     0,
     "España",
     "ES",
